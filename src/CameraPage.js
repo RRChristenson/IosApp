@@ -1,5 +1,5 @@
 const PluginPage = require('./PluginPage');
-const {Button, ImageView} = require('tabris');
+const {Button, ImageView, XMLHttpRequest} = require('tabris');
 
 const TITLE = 'Camera';
 const PLUGIN_ID = 'cordova-plugin-camera';
@@ -29,6 +29,27 @@ module.exports = class CameraPage extends PluginPage {
       targetHeight: 1024,
       destinationType: window.Camera.DestinationType.FILE_URI
     });
+
+    //File Processing
+    let file =  this.find('#image').first().image;
+    let fileName = 'file';
+    let mimeType = 'image';
+    let target = 'http://192.168.1.5:8080/';
+    const xhr = new XMLHttpRequest();
+    xhr.onload = function() { if (xhr.status === 200) {
+      // File(s) uploaded.
+      console.log('File sent');
+    } else {
+      console.log('file not sent');
+    } };
+    xhr.onerror = function() { /* Not called */ };
+    xhr.onabort = function() { /* Not called */ };
+    xhr.ontimeout = function() { /* Not called */ };
+    xhr.open('POST', target, true);
+    xhr.setRequestHeader('Content-Type', mimeType);
+    xhr.setRequestHeader('Content-Disposition', 'attachment; filename="' + fileName + '"');
+    xhr.send(file);
+    console.log('file sent');
   }
 
   applyLayout() {

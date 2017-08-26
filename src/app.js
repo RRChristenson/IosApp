@@ -1,6 +1,8 @@
 const {Button, NavigationView,ScrollView, ui, Page,device} = require('tabris');
 const CameraPage = require('./CameraPage');
 
+
+
 let navigationView = new  NavigationView({
   left:0, top:0, right:0, bottom:0
 }).appendTo(ui.contentView);
@@ -8,6 +10,7 @@ let navigationView = new  NavigationView({
 let mainPage = new Page({
   title: 'Robs super awesome fun app'
 }).appendTo(navigationView);
+
 
 let contentContainer = new ScrollView({
   left: 0, top: 0, right: 0, bottom: 0
@@ -17,16 +20,6 @@ let button = new Button({
   centerX: 0, top: 100,
   text: 'Missys Cooooool'
 }).appendTo(contentContainer);
-
-/*let takePicture = new Button({
-  left: 16, top: 200, right: 16,
-  text: 'Take Picture'
-}).appendTo(contentContainer);
-
-takePicture.on('select', () => {
-  CameraPage.appendTo(navigationView);
-});*/
-//.appendTo(contentContainer);
 
 button.on('select', () => {
   button.enabled = false;
