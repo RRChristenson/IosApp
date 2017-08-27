@@ -27,29 +27,21 @@ module.exports = class CameraPage extends PluginPage {
       quality: 50,
       targetWidth: 1024,
       targetHeight: 1024,
-      destinationType: window.Camera.DestinationType.FILE_URI
+      destinationType: window.Camera.DestinationType.DATA_URL
     });
-
-    //File Processing
-    let file =  this.find('#image').first().image;
-    let fileName = 'file';
-    let mimeType = 'image';
-    let target = 'http://192.168.1.5:8080/';
-    const xhr = new XMLHttpRequest();
-    xhr.onload = function() { if (xhr.status === 200) {
-      // File(s) uploaded.
-      console.log('File sent');
-    } else {
-      console.log('file not sent');
-    } };
-    xhr.onerror = function() { /* Not called */ };
-    xhr.onabort = function() { /* Not called */ };
-    xhr.ontimeout = function() { /* Not called */ };
-    xhr.open('POST', target, true);
-    xhr.setRequestHeader('Content-Type', mimeType);
-    xhr.setRequestHeader('Content-Disposition', 'attachment; filename="' + fileName + '"');
-    xhr.send(file);
-    console.log('file sent');
+    console.log('before fetch');
+    fetch('http://192.168.1.3:5000/', { // Your POST endpoint
+      method: 'POST',
+      headers: {
+        'Content-Type': 'image/jpeg',
+      },
+      body: 'image data'
+    }).then(response => response.json())
+      .then(success => console.log(success))
+      .catch((err) => {
+        console.log(err);
+      });
+    console.log('after fetch');
   }
 
   applyLayout() {
@@ -59,5 +51,4 @@ module.exports = class CameraPage extends PluginPage {
       '#image': {top: '#pictureButton 16', left: 16, right: 16, bottom: 16}
     });
   }
-
 };
